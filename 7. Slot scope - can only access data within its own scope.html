@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Use isShow: true of the parent component (here is the data value of new Vue, so the child component will display -->
+      <cpn v-show="isShow"></cpn>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          isShow: true,
+        },
+        components: {
+          cpn: {
+            template: `
+           <div>
+              <h4>I am a child component</h4>
+              <p v-show="isShow">I use isShow: false of the subcomponent, it will not be displayed</p>
+           </div>
+       `,
+            data() {
+              return {
+                isShow: false,
+              };
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

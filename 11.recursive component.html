@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <script src="https://unpkg.com/vue@2"></script>
+  </head>
+  <body>
+    <div id="app">
+      <global-cpn></global-cpn>
+      <local-cpn></local-cpn>
+    </div>
+
+    <template id="globalCpn">
+      <div>
+        <global-cpn></global-cpn>
+        <p>Global components directly use the component name</p>
+      </div>
+    </template>
+    <script>
+      var localCpn = {
+        template: `
+    <div>
+        <loacl></loacl>
+        <p>Partial components need to set name</p>
+    </div>
+    `,
+        name: "loacl",
+      };
+      // 1. Register a global component
+      Vue.component("global-cpn", {
+        template: "#globalCpn",
+      });
+
+      const app = new Vue({
+        el: "#app",
+        //Register local components under app
+        components: {
+          "local-cpn": localCpn,
+        },
+      });
+    </script>
+  </body>
+</html>

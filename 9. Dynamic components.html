@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dynamic Components Example</title>
+    <script src="https://unpkg.com/vue@2"></script>
+    <style>
+      .tab-button {
+        padding: 6px 10px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        background: #f0f0f0;
+        margin-bottom: -1px;
+        margin-right: -1px;
+      }
+      .tab-button:hover {
+        background: #ccc;
+      }
+      .tab-button.active {
+        background: gray;
+      }
+      .tab {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Assign the currently clicked component name to currentTab through the click event -->
+      <button
+        v-for="item in tabs"
+        :key="item.cpn"
+        :class="['tab-button', { active: currentTab === item.cpn }]"
+        @click="currentTab = item.cpn"
+      >
+        {{ item. value }}
+      </button>
+      <!-- is is bound to currentName, that is, the component that displays currentName -->
+      <keep-alive>
+        <component :is="currentName" class="tab"></component>
+      </keep-alive>
+
+      <p></p>
+
+      <!-- Multiple subcomponents in keep-alive If no conditions are added, the first subcomponent will be displayed by default -->
+      <keep-alive>
+        <one v-if="currentTab == 'one'"></one>
+        <two v-else-if="currentTab == 'two'"></two>
+        <three v-else></three>
+      </keep-alive>
+    </div>
+    <script>
+      const one = {
+        template: '<div>label page  1<input type="text"></div>',
+      };
+      const two = {
+        template: '<div>label page  2<input type="text"></div>',
+      };
+      const three = {
+        template: '<div>label page 3<input type="text"></div>',
+      };
+      new Vue({
+        el: "#app",
+        data: {
+          currentTab: "one",
+          tabs: [
+            {
+              cpn: "one",
+              value: "Label 1",
+            },
+            {
+              cpn: "two",
+              value: "Label 2",
+            },
+            {
+              cpn: "three",
+              value: "Label 3",
+            },
+          ],
+        },
+        components: {
+          one,
+          two,
+          three,
+        },
+        computed: {
+          currentName() {
+            // Return the current component name currentTab
+            return this.currentTab;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+      <script src="https://unpkg.com/vue@2"></script>
+  </head>
+  <body>
+    <div id="app">
+      <global-cpn></global-cpn>
+      <local-cpn></local-cpn>
+    </div>
+
+    <h2>I split two Vue instances</h2>
+
+    <div id="app2">
+      <global-cpn></global-cpn>
+      <local-cpn></local-cpn>
+    </div>
+
+<!-- Define the template for the global component -->
+    <template id="globalCpn">
+      <div>
+        <p>I am a global component, which can be used under multiple Vue instances</p>
+      </div>
+    </template>
+    <script>
+      // 1. Register a global component, note that the global component must be defined before the vue instance is created, otherwise it cannot be displayed and an error will be reported
+      Vue. component('global-cpn', {
+        template: '#globalCpn',
+      });
+      //Define the template of the local component in the variable to make the code more tidy and standardized
+  var localCpn = {
+        template:`
+   <div>
+        <p>I am a local component, which can only be used under the mounted new Vue instance</p>
+    </div>
+  ` };
+ 
+      const app = new Vue({
+        el: '#app',
+        //Register local components under app
+        components: {
+          'local-cpn': localCpn,
+        },
+      });
+      const app2 = new Vue({
+        el: '#app2',
+      });
+    </script>
+  </body>
+</html>

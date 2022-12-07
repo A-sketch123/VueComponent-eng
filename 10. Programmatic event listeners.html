@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Programmatic Event Listeners using Pikaday</title>
+    <script src="https://unpkg.com/pikaday@1.7.0"></script>
+    <script src="https://unpkg.com/vue@2"></script>
+  </head>
+  <body>
+    <div id="app">
+      <input ref="startDateInput" v-model="date" type="date" />
+      <input ref="endDateInput" />
+    </div>
+
+    <script>
+    new Vue({
+         el: '#app',
+         mounted: function () {
+           // var picker = new Pikaday({
+           // field: this.$refs.dateInput,
+           // format: "YYYY-MM-DD"
+           // });
+
+           // this. $once("hook:beforeDestroy", function() {
+           // picker. destroy();
+           // });
+           // Let multiple input elements use different Pikadays at the same time, each new instance programmatically cleans itself up later
+           this.attachDatepicker('startDateInput');
+           this.attachDatepicker('endDateInput');
+         },
+         methods: {
+           attachDatepicker(refName) {
+             var picker = new Pikaday({
+               field: this.$refs[refName],
+               format: 'YYYY-MM-DD',
+             });
+             //The date picker of the third-party library is also destroyed before the component is destroyed
+             this.$once('hook:beforeDestroy', function () {
+               picker.destroy();
+             });
+           },
+         },
+       });
+
+       // without programmatic event listeners
+       // // Attach this date picker to an input box at once
+       // // It will be mounted on the DOM.
+       // mounted: function () {
+       // // Pikaday is a third-party date picker library
+       // this.picker = new Pikaday({
+       // field: this.$refs.input,
+       // format: 'YYYY-MM-DD'
+       // })
+       // },
+       // // Before the component is destroyed,
+       // // Also destroy the datepicker.
+       // beforeDestroy: function () {
+       // this. picker. destroy()
+       // }
+     </script>
+  </body>
+</html>

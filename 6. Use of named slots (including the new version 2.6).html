@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Versions before Vue 2.6.0 -->
+      <!-- <cpn></cpn>
+      <cpn><span v-slot="center">replaces the middle</span></cpn>
+      <cpn>
+        <template slot="left">
+          <button>Click to return</button>
+        </template>
+      </cpn> -->
+   
+      <!-- Use syntax after Vue 2.6.0 -->
+      <cpn></cpn>
+      <cpn>
+        <template #center>
+          <span>replaced the middle</span>
+        </template>
+      </cpn>
+      <cpn>
+        <template v-slot:left>
+          <button @click="btn">Click to return</button>
+        </template>
+      </cpn>
+   </div>
+   
+   <template id="cpn">
+      <div>
+        <slot name="left"><span>left</span></slot>
+        <slot name="center"><span>middle</span></slot>
+        <slot name="right"><span>right</span></slot>
+      </div>
+   </template>
+    <script>
+      const app = new Vue({
+        el: '#app',
+        components: {
+          cpn: {
+            template: '#cpn',
+          },
+        },
+        methods: {
+            btn(){
+                console.log('hello')
+            }
+        },
+      });
+    </script>
+  </body>
+</html>

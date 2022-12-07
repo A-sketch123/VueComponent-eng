@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <cpn ref="child1"></cpn>
+      <cpn ref="child2"></cpn>
+      <button @click="btnClick">Access subcomponents through res</button>
+    </div>
+  
+    <script>
+      const app = new Vue({
+        el: '#app',
+        methods: {
+          btnClick() {
+            //Access the data of the child component through ref
+            console.log(this.$refs.child1.name);
+            //The parent component implements by calling the method of the child component so that the parent component can focus on the input box in the child component
+            this.$refs.child2.sonfocus();
+          },
+        },
+        components: {
+          cpn: {
+            template:`
+        <div>I am a child component
+        <input ref="ipt">
+        </div>`,
+            data() {
+              return {
+                name: 'I am the name of subcomponent child1',
+              };
+            },
+            methods: {
+              sonfocus() {
+                // Subcomponents can also use ref to access specified elements inside themselves
+                this.$refs.ipt.focus();
+              },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
